@@ -45,15 +45,9 @@ public class MovieSerieServiceImp implements IMovieSerieService {
     @Override
     public Collection<MovieSerieDTO> read(String title, Long idGender, Order order) {
         log.info("Searching by Parameters MovieSerie");
-        boolean withoutParameters = title.equals("") && idGender <= 0 && order == null;
         boolean byTitle = !title.equals("");
         boolean byIdGender = idGender > 0;
         boolean Order = order != null;
-        if (withoutParameters) {
-            return movieSerieService.findAll().stream()
-                    .map(this::convertToMovieSerieDTO)
-                    .collect(Collectors.toList());
-        }
         if (byTitle) {
             return movieSerieService.findMovieSerieByTitleStartingWith(title).stream()
                     .map(this::convertToMovieSerieDTO)
@@ -76,7 +70,9 @@ public class MovieSerieServiceImp implements IMovieSerieService {
                         .collect(Collectors.toList());
             }
         }
-        return null;
+        return movieSerieService.findAll().stream()
+                .map(this::convertToMovieSerieDTO)
+                .collect(Collectors.toList());
     }
 
 
@@ -125,6 +121,12 @@ public class MovieSerieServiceImp implements IMovieSerieService {
     public boolean delete(Long idMovieSerie) {
         log.info("Deleting MovieSerie with id " + idMovieSerie);
         movieSerieService.deleteById(idMovieSerie);
+        return true;
+    }
+
+    public boolean exist(Long idMovieSerie) {
+        log.info("searching MovieSerie with id " + idMovieSerie);
+        movieSerieService.existsById(idMovieSerie);
         return true;
     }
 

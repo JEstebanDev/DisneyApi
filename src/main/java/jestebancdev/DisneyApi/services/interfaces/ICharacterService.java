@@ -19,4 +19,5 @@ public interface ICharacterService {
     CharacterMovieSerieDTO update(Long idCharacter, Character character);
 
     boolean delete(Long idCharacter);
+    boolean exist(Long idCharacter);
 }

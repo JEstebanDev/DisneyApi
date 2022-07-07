@@ -41,7 +41,11 @@ public class GenderServiceImp implements IGenderService {
         gender.setIdGender(idGender);
         return genderRepository.save(gender);
     }
-
+    public boolean exist(Long idGender) {
+        log.info("Searching gender");
+        genderRepository.existsById(idGender);
+        return true;
+    }
     @Override
     public boolean delete(Long idGender) {
         log.info("Deleting gender");

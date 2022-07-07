@@ -12,7 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication
 @SecurityScheme(name = "disney-api", scheme = "bearer", type = SecuritySchemeType.HTTP, in = SecuritySchemeIn.HEADER)
-@OpenAPIDefinition(info = @Info(title = "User API", version = "2.0", description = "User Details"))
+@OpenAPIDefinition(info = @Info(title = "User API", version = "2.0", description = "This is an application that allows Spanish-speaking children to explore the world of Disney."))
 public class DisneyApiApplication {
 
 	public static void main(String[] args) {

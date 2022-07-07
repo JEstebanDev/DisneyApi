@@ -40,7 +40,6 @@ public class CharacterServiceImp implements ICharacterService {
     @Override
     public Collection<CharacterMovieSerieDTO> detailCharacter() {
         log.info("Reading with all information");
-        /*return characterRepository.findAll();*/
         return characterRepository.findAll().stream()
                 .map(this::convertCharacterMovieSerieDTO)
                 .collect(Collectors.toList());
@@ -49,17 +48,10 @@ public class CharacterServiceImp implements ICharacterService {
     @Override
     public Collection<CharacterDTO> read(String name, int age, int weight, Long idMovieSerie) {
         log.info("Reading Characters");
-        boolean withoutParameters = name.equals("") && age <= 0 && weight <= 0 && idMovieSerie <= 0;
         boolean byName = !name.equals("");
         boolean byAge = age > 0;
         boolean byWeight = weight > 0;
-        boolean byIdMovieSerie = idMovieSerie >= 0;
-        if (withoutParameters) {
-            log.info("withoutParameters");
-            return characterRepository.findAll().stream()
-                    .map(this::convertCharacterDTO)
-                    .collect(Collectors.toList());
-        }
+        boolean byIdMovieSerie = idMovieSerie > 0;
         if (byName) {
             log.info("byName");
             return characterRepository.findCharacterByNameStartingWith(name).stream()
@@ -84,7 +76,10 @@ public class CharacterServiceImp implements ICharacterService {
                     .map(this::convertCharacterDTO)
                     .collect(Collectors.toList());
         }
-        return null;
+        log.info("withoutParameters");
+        return characterRepository.findAll().stream()
+                .map(this::convertCharacterDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -105,6 +100,12 @@ public class CharacterServiceImp implements ICharacterService {
         log.info("Deleting Character with id " + idCharacter);
         characterRepository.deleteById(idCharacter);
         return true;
+    }
+
+    @Override
+    public boolean exist(Long idCharacter) {
+        log.info("Searching Character with id " + idCharacter);
+        return characterRepository.existsById(idCharacter);
     }
 
     public CharacterMovieSerieDTO convertCharacterMovieSerieDTO(Character character) {

@@ -5,18 +5,14 @@ import com.auth0.jwt.algorithms.Algorithm;
 import jestebancdev.DisneyApi.dto.LoginDTO;
 import jestebancdev.DisneyApi.model.UserApp;
 import jestebancdev.DisneyApi.repository.IUserRepository;
-import jestebancdev.DisneyApi.security.CustomAuthenticationFilter;
 import jestebancdev.DisneyApi.security.OperationUtil;
 import jestebancdev.DisneyApi.services.interfaces.IUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -24,13 +20,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author Juan Esteban Castaño Holguin castanoesteban9@gmail.com 7/6/2022
@@ -43,7 +37,8 @@ public class UserServiceImp implements IUserService,UserDetailsService {
     @Autowired
     private IUserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-
+    @Autowired
+    private JavaMailSender javaMailSender;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserApp user = userRepository.findByUsername(username);
@@ -62,6 +57,7 @@ public class UserServiceImp implements IUserService,UserDetailsService {
     public UserApp create(UserApp user) {
         log.info("Creating user");
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        sendMail(user.getEmail(), user.getUsername());
         return userRepository.save(user);
     }
 
@@ -100,11 +96,28 @@ public class UserServiceImp implements IUserService,UserDetailsService {
         return userRepository.save(updateUser);
     }
 
-
+    public boolean exist(Long idUser) {
+        log.info("Searching user");
+        userRepository.existsById(idUser);
+        return true;
+    }
     @Override
     public boolean delete(Long idUser) {
         log.info("Deleting user");
         userRepository.deleteById(idUser);
+        return true;
+    }
+
+    public Boolean sendMail(String email, String userName) {
+        log.info("Sending mail");
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(email);
+
+        message.setSubject("Disney Api by JEstebanCDev");
+        String html = "Hola " + userName + "! \n" + "Bienvenid@ al sistema \n"
+                + "En este mail te mantendremos informad@ de todas nuestras actualizaciones\n";
+        message.setText(html);
+        javaMailSender.send(message);
         return true;
     }
 }

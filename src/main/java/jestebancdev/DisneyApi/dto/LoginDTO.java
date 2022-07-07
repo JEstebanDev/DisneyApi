@@ -1,5 +1,6 @@
 package jestebancdev.DisneyApi.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
@@ -7,6 +8,8 @@ import lombok.Data;
  */
 @Data
 public class LoginDTO {
+    @Schema(name = "username",example = "admin")
     private String username;
+    @Schema(name = "password",example = "123456")
     private String password;
 }
