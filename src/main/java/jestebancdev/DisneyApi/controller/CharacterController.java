@@ -26,7 +26,6 @@ import java.util.Map;
 @SecurityRequirement(name = "disney-api")
 @PreAuthorize("hasRole('ROLE_ADMIN')")
 @RequestMapping("/characters")
-@Slf4j
 public class CharacterController {
     @Autowired
     private final CharacterServiceImp serviceImp;
@@ -39,12 +38,18 @@ public class CharacterController {
                 .status(HttpStatus.OK).statusCode(HttpStatus.OK.value()).build());
     }
 
+    @GetMapping(value = "/detail")
+    public ResponseEntity<Response> detailCharacter(){
+        return ResponseEntity.ok(Response.builder().timeStamp(Instant.now())
+                .data(Map.of("list full characters", serviceImp.detailCharacter())).message("detail characters")
+                .status(HttpStatus.OK).statusCode(HttpStatus.OK.value()).build());
+    }
+
     @GetMapping()
     public ResponseEntity<Response> readCharacters(@RequestParam(value = "name",defaultValue = "") @Nullable String name,
                                                    @RequestParam(value = "age",defaultValue = "0") int age,
                                                    @RequestParam(value = "weight",defaultValue = "0") int weight,
                                                    @RequestParam(value = "movies",defaultValue = "0") Long idMovieSerie) {
-        log.info("asqui");
         return ResponseEntity.ok(Response.builder().timeStamp(Instant.now())
                 .data(Map.of("list characters", serviceImp.read(name, age, weight, idMovieSerie))).message("Read characters")
                 .status(HttpStatus.OK).statusCode(HttpStatus.OK.value()).build());

@@ -21,8 +21,5 @@ public class Gender {
     @NotNull(message = "nombre no puede estar vacio")
     private String name;
     private String image;
-    @ManyToOne
-    @NotNull(message = "idPeliculaSerie no puede estar vacio")
-    @JoinColumn(name = "idPeliculaSerie")
-    private MovieSerie movieSerie;
 }
+

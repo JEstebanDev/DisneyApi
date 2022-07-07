@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * @author Juan Esteban Castaño Holguin castanoesteban9@gmail.com 7/5/2022
@@ -27,6 +29,5 @@ public class Character {
     @NotNull(message = "peso no puede estar vacio")
     private int weight;
     private String story;
-
 
 }

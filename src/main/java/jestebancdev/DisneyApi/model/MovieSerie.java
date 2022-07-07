@@ -32,6 +32,11 @@ public class MovieSerie {
     @NotNull(message = "La calificación no puede estar vacia")
     private int rating;
 
+    @ManyToOne
+    @NotNull(message = "idGender no puede estar vacio")
+    @JoinColumn(name = "idGender")
+    private Gender gender;
+
     @ManyToMany
     @JoinColumn(name = "idCharacter")
     @JoinTable(joinColumns = @JoinColumn(name = "idMovieSerie"),

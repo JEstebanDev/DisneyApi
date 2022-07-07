@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Collection;
 
 /**
  * @author Juan Esteban Castaño Holguin castanoesteban9@gmail.com 7/5/2022
@@ -20,27 +21,31 @@ import javax.transaction.Transactional;
 public class GenderServiceImp implements IGenderService {
 
     @Autowired
-    private IGenderRepository generoRepository;
+    private IGenderRepository genderRepository;
 
     @Override
     public Gender create(Gender gender) {
-        log.info("Creando genero");
-        return generoRepository.save(gender);
+        log.info("Creating gender");
+        return genderRepository.save(gender);
     }
 
     @Override
-    public Gender update(Long idGenero, Gender gender) {
-        log.info("Actualizando genero");
-        Gender actualizarGender;
-        actualizarGender = gender;
-        actualizarGender.setIdGender(idGenero);
-        return generoRepository.save(actualizarGender);
+    public Collection<Gender> read() {
+        log.info("Reading genders");
+        return genderRepository.findAll();
     }
 
     @Override
-    public boolean delete(Long idGenero) {
-        log.info("Borrando genero");
-        generoRepository.deleteById(idGenero);
+    public Gender update(Long idGender, Gender gender) {
+        log.info("Updating gender");
+        gender.setIdGender(idGender);
+        return genderRepository.save(gender);
+    }
+
+    @Override
+    public boolean delete(Long idGender) {
+        log.info("Deleting gender");
+        genderRepository.deleteById(idGender);
         return true;
     }
 }

@@ -1,5 +1,6 @@
 package jestebancdev.DisneyApi.services.interfaces;
 
+import jestebancdev.DisneyApi.dto.MovieSerieDTO;
 import jestebancdev.DisneyApi.enumeration.Order;
 import  jestebancdev.DisneyApi.model.MovieSerie;
 
@@ -12,9 +13,13 @@ public interface IMovieSerieService {
 
     MovieSerie create(MovieSerie movieSerie);
 
-    Collection<MovieSerie> read(String title, Long idGender, Order order);
+    Collection<MovieSerieDTO> read(String title, Long idGender, Order order);
 
     MovieSerie update(Long idMovieSerie,MovieSerie movieSerie);
+
+    MovieSerie addCharacter(Long idMovieSerie,Long idCharacter);
+
+    MovieSerie removeCharacter(Long idMovieSerie,Long idCharacter);
 
     boolean delete(Long idMovieSerie);
 }

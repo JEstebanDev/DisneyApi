@@ -12,15 +12,17 @@ import java.util.Collection;
  */
 @Repository
 
-public interface ICharacterRepository extends JpaRepository<Character,Long> {
+public interface ICharacterRepository extends JpaRepository<Character, Long> {
 
-   Collection<Character> findCharacterByNameStartingWith(String name);
+    Collection<Character> findCharacterByNameStartingWith(String name);
 
-    Collection<Character>  findAllByAge(int age);
+    Collection<Character> findAllByAge(int age);
 
-    Collection<Character>  findAllByWeight(int weight);
+    Collection<Character> findAllByWeight(int weight);
 
-   /* @Query(value = "", nativeQuery = true)
-    Collection<Character>  findByIdMovieSerie(Long idMovieSerie);*/
+    @Query(value = "SELECT character.* FROM movie_serie_character Movie_serie_character " +
+            "JOIN character Character ON Character.id_character=Movie_serie_character.id_character " +
+            "WHERE Movie_serie_character.id_movie_serie=?", nativeQuery = true)
+    Collection<Character> findByIdMovieSerie(Long idMovieSerie);
 
 }

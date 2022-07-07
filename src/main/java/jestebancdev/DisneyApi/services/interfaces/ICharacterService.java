@@ -1,5 +1,7 @@
 package jestebancdev.DisneyApi.services.interfaces;
 
+import jestebancdev.DisneyApi.dto.CharacterDTO;
+import jestebancdev.DisneyApi.dto.CharacterMovieSerieDTO;
 import jestebancdev.DisneyApi.model.Character;
 
 import java.util.Collection;
@@ -9,11 +11,12 @@ import java.util.Collection;
  */
 public interface ICharacterService {
 
-    Character create(Character character);
+    CharacterMovieSerieDTO create(Character character);
 
-    Collection<Character> read(String name, int age, int weight, Long idMovieSerie);
+    Collection<CharacterMovieSerieDTO> detailCharacter();
+    Collection<CharacterDTO> read(String name, int age, int weight, Long idMovieSerie);
 
-    Character update(Long idCharacter, Character character);
+    CharacterMovieSerieDTO update(Long idCharacter, Character character);
 
     boolean delete(Long idCharacter);
 }
