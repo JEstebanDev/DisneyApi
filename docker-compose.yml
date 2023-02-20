@@ -1,0 +1,28 @@
+services:
+  app:
+    image: 'disneyapi:latest'
+    build:
+      context: .
+    container_name: disneyapi
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/disneydb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 123
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_MAIL_HOST: smtp.gmail.com
+      SPRING_MAIL_PORT: 587
+      SPRING_MAIL_USERNAME: pruebitas675@gmail.com
+      SPRING_MAIL_PASSWORD: zywohorenfrqjpbs
+      SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH: true
+      SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE: true
+    ports:
+      - 8080:8080
+  postgres:
+    image: 'postgres:13.1-alpine'
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: disneydb
